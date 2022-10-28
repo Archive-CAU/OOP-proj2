@@ -142,6 +142,52 @@ bool operator>(const inf_int& a, const inf_int& b)
 	// 부호
 	// length
 	// for문 큰자리부터 비교
+	//둘다 양수인 경우
+	if (a.thesign == 1 && b.thesign == 1) {
+		if (a.length > b.length) {
+			return true;            //a의 길이가 더 길면 true
+		}
+		else if (a.length < b.length) {
+			return false;          //a의 길이가 더 짧으면 false
+		}
+		else {
+			//둘 다 양수, 길이 같은 경우
+			for (int i = 0; i < a.length; i++) {
+				if (a.digits[a.length - 1 - i] > b.digits[a.length - 1 - i]) {
+					return true;
+				} //큰 자리수부터 순서대로 비교
+
+			}
+			return false;
+		}
+	}
+
+	//둘 다 음수인 경우
+	else if (a.thesign == 0 && b.thesign == 0) {
+		if (a.length < b.length) { //a의 길이가 더 짧으면 true
+			return true;
+		}
+		else if (a.length > b.length) { //a의 길이가 더 길면 false
+			return false;
+		}
+		else {
+			//둘 다 음수, 길이 같은 경우
+			for (int i = 0; i < a.length; i++) {
+				if (a.digits[a.length - 1 - i] < b.digits[a.length - 1 - i]) {
+					return true;  //큰 자리수부터 순서대로 비교
+				}
+
+			}
+			return false;
+		}
+
+	}
+
+	else {
+		// 부호가 다를 경우, a가 양수일 경우 b는 음수, a가 음수일 경우 b는 양수이기에 a의 부호진리값을 반환하면 됨
+		return a.thesign;
+
+	}
 }
 
 bool operator<(const inf_int& a, const inf_int& b)
@@ -179,15 +225,15 @@ inf_int operator+(const inf_int& a, const inf_int& b)
 	}
 }
 
-//inf_int operator-(const inf_int& a, const inf_int& b)
-//{
-//	// to be filled
-//}
-//
-//inf_int operator*(const inf_int& a, const inf_int& b)
-//{
-//	// to be filled
-//}
+inf_int operator-(const inf_int& a, const inf_int& b)
+{
+	// to be filled
+}
+
+inf_int operator*(const inf_int& a, const inf_int& b)
+{
+	// to be filled
+}
 
 
 ostream& operator<<(ostream& out, const inf_int& a)
