@@ -138,16 +138,16 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 
 			// a와 b가 겹치는 범위 연산
 			for (int i = 0; i < b.length; i++) {
-				int sum = ((a.digits[i] - '0') + (b.digits[i] - '0') + carry);
-				c.digits.push_back(sum % 10 + '0');
-				carry = sum / 10;
+				int addition = ((a.digits[i] - '0') + (b.digits[i] - '0') + carry);
+				c.digits.push_back(addition % 10 + '0');
+				carry = addition / 10;
 			}
 
 			// 남는 a 범위 연산
 			for (int i = b.length; i < a.length; i++) {
-				int sum = ((a.digits[i] - '0') + carry);
-				c.digits.push_back(sum % 10 + '0');
-				carry = sum / 10;
+				int addition = ((a.digits[i] - '0') + carry);
+				c.digits.push_back(addition % 10 + '0');
+				carry = addition / 10;
 			}
 
 			if (carry) c.digits.push_back(carry + '0');
@@ -157,16 +157,16 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 			int carry = 0;
 			// a와 b가 겹치는 범위 연산
 			for (int i = 0; i < a.length; i++) {
-				int sum = ((a.digits[i] - '0') + (b.digits[i] - '0') + carry);
-				c.digits.push_back(sum % 10 + '0');
-				carry = sum / 10;
+				int addition = ((a.digits[i] - '0') + (b.digits[i] - '0') + carry);
+				c.digits.push_back(addition % 10 + '0');
+				carry = addition / 10;
 			}
 
 			// 남는 b 범위 연산
 			for (int i = a.length; i < (int)b.length; i++) {
-				int sum = ((b.digits[i] - '0') + carry);
-				c.digits.push_back(sum % 10 + '0');
-				carry = sum / 10;
+				int addition = ((b.digits[i] - '0') + carry);
+				c.digits.push_back(addition % 10 + '0');
+				carry = addition / 10;
 			}
 
 			if (carry) c.digits.push_back(carry + '0');
@@ -186,33 +186,159 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 	}
 }
 
-//inf_int operator-(const inf_int& a, const inf_int& b)
-//{
-//	inf_int c;
-//	unsigned int i;
-//
-//	if (a.thesign != b.thesign) {
-//		// 5 - (-3) -> 5 + 3
-//		// -5 - 3 -> -5 + (-3)
-//		c = b;
-//		c.thesign = a.thesign;
-//		return a + c;
-//	}
-//	else {
-//		// -5 - (-3)
-//		// -5 - (-8) = 3
-//		// 15 - 3 = 12
-//		// 5 - 8
-//
-//		c.thesign = a > b ? 0 : 1;
-//
-//	}
-//}
+inf_int operator-(const inf_int& a, const inf_int& b)
+{
+	inf_int c;
+	 // a > b
+	if (compareAbs(a, b)) { 
+		if (a.thesign == b.thesign) {
+			c.digits = string();
+			int carry = 0;
 
-//inf_int operator*(const inf_int& a, const inf_int& b)
-//{
-//	// to be filled
-//}
+			// a와 b 겹치는 부분 계산
+			for (unsigned int i = 0; i < b.length; i++) {
+				int subtraction = ((a.digits[i] - '0') - (b.digits[i] - '0') - carry);
+				if (subtraction < 0) {
+					subtraction = subtraction + 10;
+					carry = 1;
+				}
+				else {
+					carry = 0;
+				}
+				c.digits.push_back(subtraction + '0');
+			}
+
+			// 남는 a 범위 계산
+			for (unsigned int i = b.length; i < a.length; i++) {
+				int subtraction = ((a.digits[i] - '0') - carry);
+				if (subtraction < 0) {
+					subtraction = subtraction + 10;
+					carry = 1;
+				}
+				else {
+					carry = 0;
+				}
+				c.digits.push_back(subtraction + '0');
+			}
+
+			c.length = c.digits.length();
+			// a > b
+			// 5 - 3 = 2
+			// -3 - (-5) = 2
+			c.thesign = 1;
+			return c;
+		}
+		else {
+			// 5 - (-3)
+			inf_int temp = b;
+			temp.thesign = 1;
+			c = a + temp;
+			return c;
+		}
+	}
+
+	// a == b
+	else if (a.digits == b.digits) {
+		if (a.thesign == b.thesign) {
+			c = inf_int(); // return 0
+		}
+		else {
+			c = a + a;
+			c.thesign = a.thesign;
+		}
+		return c;
+	}
+
+	// a < b
+	else {
+		if (a.thesign == b.thesign) {
+			c.digits = string();
+			int carry = 0;
+
+			// a와 b 겹치는 부분 계산
+			for (unsigned int i = 0; i < a.length; i++) {
+				int subtraction = ((b.digits[i] - '0') - (a.digits[i] - '0') - carry);
+				if (subtraction < 0) {
+					subtraction = subtraction + 10;
+					carry = 1;
+				}
+				else {
+					carry = 0;
+				}
+				c.digits.push_back(subtraction + '0');
+			}
+
+			// b 남는 부분 계산
+			for (unsigned int i = a.length; i < b.length; i++) {
+				int subtraction = ((b.digits[i] - '0') - carry);
+				if (subtraction < 0) {
+					subtraction = subtraction + 10;
+					carry = 1;
+				}
+				else {
+					carry = 0;
+				}
+				c.digits.push_back(subtraction + '0');
+			}
+
+			c.length = c.digits.length();
+			// a < b
+			// a양수 b도 양수 3 - 5 = -2
+			// a음수 b도 음수 -5 - (-2) = -3
+			c.thesign = 0;
+			return c;
+		}
+		else {
+			// -3 - 5 = -8
+			inf_int temp = a;
+			temp.thesign = 0;
+			c = temp + b;
+			return c;
+		}
+	}
+}
+
+
+inf_int operator*(const inf_int& a, const inf_int& b)
+{
+	inf_int c;
+	// a or b is zero
+	if (isZero(a) || isZero(b)) {
+		c = inf_int();
+		return c;
+	}
+
+	else {
+		// 가장 클 경우를 대비해서 크게 잡아두기
+		c.digits = string(a.length + b.length, 0);
+
+		// sign determination
+		if (a.thesign == b.thesign) c.thesign = true;
+		else c.thesign = false;
+
+		for (int i = 0; i < a.length; i++) {
+			for (int j = 0; j < b.length; j++) {
+				int production = c.digits[i + j] + (a.digits[i] - '0') * (b.digits[j] - '0');
+				c.digits[i + j] = production % 10;
+				c.digits[i + j + 1] += production / 10;
+			}
+		}
+
+		// 계산 마친 후 ASCII
+		for (int i = 0; i < c.digits.length(); i++) {
+			c.digits[i] += '0';   
+		}
+
+		// 크게 잡아둔 범위를 결과에 맞게 줄이기
+		if (c.digits[c.digits.length() - 1] == '0') {
+			c.digits = c.digits.substr(0, c.digits.length() - 1);
+		}
+
+		c.length = c.digits.length();
+		return c;
+	}
+	
+}
 
 
 ostream& operator<<(ostream& out, const inf_int& a) {
@@ -246,4 +372,8 @@ bool compareAbs(const inf_int& a, const inf_int& b) {
 		}
 		return false;
 	}
+}
+
+bool isZero(const inf_int& a) {
+	return a.digits.length() == 1 && a.digits[0] == 0 && a.thesign;
 }

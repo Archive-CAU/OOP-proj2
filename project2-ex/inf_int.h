@@ -15,7 +15,7 @@ private:
     // ex) -12345555555555 -> digits="55555555554321", length=14, thesign=false
     // You may modify or add private members of inf_int class. So, it is OK to insert Add() private member function in inf_int class. However, You may not modify public members of inf_int class.
     
-
+    friend bool isZero(const inf_int&);
     friend bool compareAbs(const inf_int&, const inf_int&);
 
 public:
@@ -33,8 +33,8 @@ public:
     friend bool operator<(const inf_int&, const inf_int&);
 
     friend inf_int operator+(const inf_int&, const inf_int&);
-    //friend inf_int operator-(const inf_int&, const inf_int&);
-   // friend inf_int operator*(const inf_int&, const inf_int&);
+    friend inf_int operator-(const inf_int&, const inf_int&);
+    friend inf_int operator*(const inf_int&, const inf_int&);
     // friend inf_int operator/(const inf_int& , const inf_int&); // not required
 
     friend ostream& operator<<(ostream&, const inf_int&);
