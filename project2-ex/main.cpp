@@ -13,7 +13,7 @@ int main()
 	inf_int c("321111111111122222222222233333333333444444444445555555555");
 	inf_int d("123451987651234572749499923455022211");
 	inf_int f = d;
-	inf_int g(f);
+	//inf_int g(f);
 
 	// cin >> g ;   // not required
 
@@ -32,7 +32,7 @@ int main()
 	//	cout << "f : " << f << endl;
 	//	// cout << "g : " << g << endl;
 	//}
-	//cout << "b : " << b << endl;
-	//cout << "c : " << c << endl;
+	cout << (c > d);
+
 	return 0;
 }
