@@ -1,6 +1,6 @@
 #include "inf_int.h"
 #include <stdlib.h>
-
+#include <conio.h>
 
 using namespace std;
 
@@ -31,5 +31,6 @@ int main()
 		// cout << "g : " << g << endl;
 	}
 
+	_getch();
 	return 0;
 }

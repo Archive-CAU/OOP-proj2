@@ -23,6 +23,7 @@ void Calculator::getInput() {
 		inf_int operand1 = inf_int(result[0].c_str());
 		inf_int operand2 = inf_int(result[2].c_str());
 		string oper = result[1];
+		
 
 		if (oper.compare("+") == 0) {
 			cout << "Output: " << add(operand1, operand2) << endl;

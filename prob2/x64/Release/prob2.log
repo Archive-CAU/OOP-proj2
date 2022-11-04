@@ -1,0 +1,26 @@
+﻿  calculator.cpp
+  inf_int.cpp
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(56,40): warning C4267: '초기화 중': 'size_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(60,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(66,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(78,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(91,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(144,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(151,29): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(163,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(170,29): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(180,31): warning C4267: '=': 'size_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(230,4): warning C4267: '초기화 중': 'size_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(236,32): warning C4267: '=': 'size_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(296,4): warning C4267: '초기화 중': 'size_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(302,32): warning C4267: '=': 'size_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(336,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(337,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(354,31): warning C4267: '=': 'size_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\prob2\inf_int.cpp(382,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  main.cpp
+  코드를 생성하고 있습니다.
+  Previous IPDB not found, fall back to full compilation.
+  All 231 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  prob2.vcxproj -> C:\Users\mj043\Desktop\객체지향프로그래밍\소스코드\OOP-proj2\x64\Release\prob2.exe
