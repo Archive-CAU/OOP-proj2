@@ -41,7 +41,7 @@ inf_int::inf_int(int n) {
 
 		// make digits using buffer
 		for (int j = 0; j < i + 1; j++) {
-			if (buffer[j] == '\0') 
+			if (buffer[j] == '\0')
 				break;
 			this->digits.push_back(buffer[j]);
 		}
@@ -49,20 +49,24 @@ inf_int::inf_int(int n) {
 }
 
 inf_int::inf_int(const char* str) {
-	if (str[0] == '-') {
-		this->thesign = false;
-	}
-	else {
-		this->thesign = true;
-	}
+	if (str[0] == '-') this->thesign = false;
+	else this->thesign = true;
+	
 
 	unsigned int lengthOfStr = strlen(str);
-	this->length = lengthOfStr;
-
 	this->digits = string();
 
-	for (int i = 0; i < lengthOfStr; i++) {
-		this->digits.push_back(str[lengthOfStr - 1 - i]);
+	if (this->thesign) {
+		for (int i = 0; i < lengthOfStr; i++) {
+			this->digits.push_back(str[lengthOfStr - 1 - i]);
+		}
+		this->length = lengthOfStr;
+	}
+	else {
+		for (int i = 0; i < lengthOfStr - 1; i++) {
+			this->digits.push_back(str[lengthOfStr - 1 - i]);
+		}
+		this->length = lengthOfStr - 1;
 	}
 }
 
@@ -111,7 +115,7 @@ bool operator>(const inf_int& a, const inf_int& b) {
 	// 둘 다 양수일 경우 절댓값 비교한 것을 그대로 return
 	// 둘 다 음수일 경우 절댓값 비교의 것을 반전하여 return
 	// 부호가 다를 경우, a가 양수일 경우 b는 음수, a가 음수일 경우 b는 양수이기에 a의 부호진리값을 반환하면 됨
-	
+
 	// 값이 동일할 때
 	if (a == b) return false;
 
@@ -163,7 +167,7 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 			}
 
 			// 남는 b 범위 연산
-			for (int i = a.length; i < (int)b.length; i++) {
+			for (int i = a.length; i < b.length; i++) {
 				int addition = ((b.digits[i] - '0') + carry);
 				c.digits.push_back(addition % 10 + '0');
 				carry = addition / 10;
@@ -189,8 +193,8 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 inf_int operator-(const inf_int& a, const inf_int& b)
 {
 	inf_int c;
-	 // a > b
-	if (compareAbs(a, b)) { 
+	// a > b
+	if (compareAbs(a, b)) {
 		if (a.thesign == b.thesign) {
 			c.digits = string();
 			int carry = 0;
@@ -221,17 +225,23 @@ inf_int operator-(const inf_int& a, const inf_int& b)
 				c.digits.push_back(subtraction + '0');
 			}
 
+			// 뒷자리부터 무의미한 0 제거
+			unsigned int numOfZero = 0;
+			for (unsigned int i = c.digits.length() - 1; i > 0; i--) {
+				if (c.digits[i] == '0') numOfZero++;
+				else break;
+			}
+			c.digits = c.digits.substr(0, c.digits.length() - numOfZero);
+
 			c.length = c.digits.length();
-			// a > b
-			// 5 - 3 = 2
-			// -3 - (-5) = 2
-			c.thesign = 1;
+			c.thesign = a.thesign;
+			
 			return c;
 		}
 		else {
-			// 5 - (-3)
+			
 			inf_int temp = b;
-			temp.thesign = 1;
+			temp.thesign = a.thesign;
 			c = a + temp;
 			return c;
 		}
@@ -281,18 +291,25 @@ inf_int operator-(const inf_int& a, const inf_int& b)
 				c.digits.push_back(subtraction + '0');
 			}
 
+			// 뒷자리부터 무의미한 0 제거
+			unsigned int numOfZero = 0;
+			for (unsigned int i = c.digits.length() - 1; i > 0; i--) {
+				if (c.digits[i] == '0') numOfZero++;
+				else break;
+			}
+			c.digits = c.digits.substr(0, c.digits.length() - numOfZero);
+
 			c.length = c.digits.length();
-			// a < b
-			// a양수 b도 양수 3 - 5 = -2
-			// a음수 b도 음수 -5 - (-2) = -3
-			c.thesign = 0;
+			
+			if (a.thesign) c.thesign = false;
+			else c.thesign = true;
+			
 			return c;
 		}
 		else {
-			// -3 - 5 = -8
-			inf_int temp = a;
-			temp.thesign = 0;
-			c = temp + b;
+			inf_int temp = b;
+			temp.thesign = a.thesign;
+			c = a + temp;
 			return c;
 		}
 	}
@@ -326,7 +343,7 @@ inf_int operator*(const inf_int& a, const inf_int& b)
 
 		// 계산 마친 후 ASCII
 		for (int i = 0; i < c.digits.length(); i++) {
-			c.digits[i] += '0';   
+			c.digits[i] += '0';
 		}
 
 		// 크게 잡아둔 범위를 결과에 맞게 줄이기
@@ -337,7 +354,7 @@ inf_int operator*(const inf_int& a, const inf_int& b)
 		c.length = c.digits.length();
 		return c;
 	}
-	
+
 }
 
 
@@ -375,5 +392,9 @@ bool compareAbs(const inf_int& a, const inf_int& b) {
 }
 
 bool isZero(const inf_int& a) {
-	return a.digits.length() == 1 && a.digits[0] == 0 && a.thesign;
+	if (a.length != 1) return false;
+	if (a.thesign != true) return false;
+	if (a.digits[a.length - 1] != '0') return false;
+	return true;
 }
+
