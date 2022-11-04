@@ -71,12 +71,9 @@ inf_int::inf_int(const char* str) {
 }
 
 inf_int::inf_int(const inf_int& a) {
-	this->digits = string();
-
-	for (int i = 0; i < a.length; i++) {
-		this->digits.push_back(a.digits[i]);
-	}
-
+	string tempStr = string(a.digits);
+	this->digits = tempStr;
+	
 	this->length = a.length;
 	this->thesign = a.thesign;
 }
