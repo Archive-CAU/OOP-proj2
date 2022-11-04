@@ -72,9 +72,7 @@ inf_int::inf_int(const char* str) {
 
 inf_int::inf_int(const inf_int& a) {
 	this->digits = string();
-	//for (auto digit : a.digits) {
-	//	this->digits.push_back(digit);
-	//}
+
 	for (int i = 0; i < a.length; i++) {
 		this->digits.push_back(a.digits[i]);
 	}
@@ -393,7 +391,8 @@ bool compareAbs(const inf_int& a, const inf_int& b) {
 
 bool isZero(const inf_int& a) {
 	if (a.length != 1) return false;
-	if (a.thesign != true) return false;
 	if (a.digits[a.length - 1] != '0') return false;
+	if (a.thesign != true) return false;
+	
 	return true;
 }
