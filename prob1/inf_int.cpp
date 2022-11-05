@@ -10,7 +10,6 @@ inf_int::inf_int() {
 	this->thesign = true; // only minus is false (0)
 }
 
-
 inf_int::inf_int(int n) {
 	char buffer[100];
 
@@ -134,45 +133,8 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 	c.digits = string();
 
 	if (a.thesign == b.thesign) {	// 이항의 부호가 같을 경우 + 연산자로 연산
-		if (a.length > b.length) {
-			int carry = 0;
-
-			// a와 b가 겹치는 범위 연산
-			for (unsigned int i = 0; i < b.length; i++) {
-				int addition = ((a.digits[i] - '0') + (b.digits[i] - '0') + carry);
-				c.digits.push_back(addition % 10 + '0');
-				carry = addition / 10;
-			}
-
-			// 남는 a 범위 연산
-			for (unsigned int i = b.length; i < a.length; i++) {
-				int addition = ((a.digits[i] - '0') + carry);
-				c.digits.push_back(addition % 10 + '0');
-				carry = addition / 10;
-			}
-
-			if (carry) c.digits.push_back(carry + '0');
-		}
-
-		else {
-			int carry = 0;
-			// a와 b가 겹치는 범위 연산
-			for (unsigned int i = 0; i < a.length; i++) {
-				int addition = ((a.digits[i] - '0') + (b.digits[i] - '0') + carry);
-				c.digits.push_back(addition % 10 + '0');
-				carry = addition / 10;
-			}
-
-			// 남는 b 범위 연산
-			for (unsigned int i = a.length; i < b.length; i++) {
-				int addition = ((b.digits[i] - '0') + carry);
-				c.digits.push_back(addition % 10 + '0');
-				carry = addition / 10;
-			}
-
-			if (carry) c.digits.push_back(carry + '0');
-		}
-
+		if (a.length > b.length) c.Add(a, b);
+		else c.Add(b, a);
 
 		c.length = (unsigned int)c.digits.length();
 		c.thesign = a.thesign;
@@ -187,60 +149,20 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 	}
 }
 
-inf_int operator-(const inf_int& a, const inf_int& b)
-{
+inf_int operator-(const inf_int& a, const inf_int& b) {
 	inf_int c;
+	c.digits = string();
+
 	// a > b
 	if (compareAbs(a, b)) {
 		if (a.thesign == b.thesign) {
-			c.digits = string();
-			int carry = 0;
-
-			// a와 b 겹치는 부분 계산
-			for (unsigned int i = 0; i < b.length; i++) {
-				int subtraction = ((a.digits[i] - '0') - (b.digits[i] - '0') - carry);
-				if (subtraction < 0) {
-					subtraction = subtraction + 10;
-					carry = 1;
-				}
-				else {
-					carry = 0;
-				}
-				c.digits.push_back(subtraction + '0');
-			}
-
-			// 남는 a 범위 계산
-			for (unsigned int i = b.length; i < a.length; i++) {
-				int subtraction = ((a.digits[i] - '0') - carry);
-				if (subtraction < 0) {
-					subtraction = subtraction + 10;
-					carry = 1;
-				}
-				else {
-					carry = 0;
-				}
-				c.digits.push_back(subtraction + '0');
-			}
-
-			// 뒷자리부터 무의미한 0 제거
-			unsigned int numOfZero = 0;
-			for (unsigned int i = (unsigned int)c.digits.length() - 1; i > 0; i--) {
-				if (c.digits[i] == '0') numOfZero++;
-				else break;
-			}
-			c.digits = c.digits.substr(0, c.digits.length() - numOfZero);
-
-			c.length = (unsigned int)c.digits.length();
+			c.Sub(a, b);
 			c.thesign = a.thesign;
-			
-			return c;
 		}
 		else {
-
 			inf_int temp = b;
 			temp.thesign = a.thesign;
 			c = a + temp;
-			return c;
 		}
 	}
 
@@ -253,68 +175,26 @@ inf_int operator-(const inf_int& a, const inf_int& b)
 			c = a + a;
 			c.thesign = a.thesign;
 		}
-		return c;
 	}
 
 	// a < b
 	else {
 		if (a.thesign == b.thesign) {
-			c.digits = string();
-			int carry = 0;
-
-			// a와 b 겹치는 부분 계산
-			for (unsigned int i = 0; i < a.length; i++) {
-				int subtraction = ((b.digits[i] - '0') - (a.digits[i] - '0') - carry);
-				if (subtraction < 0) {
-					subtraction = subtraction + 10;
-					carry = 1;
-				}
-				else {
-					carry = 0;
-				}
-				c.digits.push_back(subtraction + '0');
-			}
-
-			// b 남는 부분 계산
-			for (unsigned int i = a.length; i < b.length; i++) {
-				int subtraction = ((b.digits[i] - '0') - carry);
-				if (subtraction < 0) {
-					subtraction = subtraction + 10;
-					carry = 1;
-				}
-				else {
-					carry = 0;
-				}
-				c.digits.push_back(subtraction + '0');
-			}
-
-			// 뒷자리부터 무의미한 0 제거
-			unsigned int numOfZero = 0;
-			for (unsigned int i = (unsigned int)c.digits.length() - 1; i > 0; i--) {
-				if (c.digits[i] == '0') numOfZero++;
-				else break;
-			}
-			c.digits = c.digits.substr(0, c.digits.length() - numOfZero);
-
-			c.length = (unsigned int)c.digits.length();
-
+			c.Sub(b, a);
 			if (a.thesign) c.thesign = false;
 			else c.thesign = true;
-
-			return c;
 		}
 		else {
 			inf_int temp = b;
 			temp.thesign = a.thesign;
 			c = a + temp;
-			return c;
 		}
 	}
+
+	return c;
 }
 
-
-inf_int operator*(const inf_int& a, const inf_int& b)
-{
+inf_int operator*(const inf_int& a, const inf_int& b) {
 	inf_int c;
 	// a or b is zero
 	if (isZero(a) || isZero(b)) {
@@ -354,7 +234,6 @@ inf_int operator*(const inf_int& a, const inf_int& b)
 
 }
 
-
 ostream& operator<<(ostream& out, const inf_int& a) {
 	int i;
 
@@ -367,7 +246,66 @@ ostream& operator<<(ostream& out, const inf_int& a) {
 	return out;
 }
 
+void inf_int::Add(const inf_int& a, const inf_int& b) {
+	int carry = 0;
 
+	// a와 b가 겹치는 범위 연산
+	for (unsigned int i = 0; i < b.length; i++) {
+		int addition = ((a.digits[i] - '0') + (b.digits[i] - '0') + carry);
+		this->digits.push_back(addition % 10 + '0');
+		carry = addition / 10;
+	}
+
+	// 남는 a 범위 연산
+	for (unsigned int i = b.length; i < a.length; i++) {
+		int addition = ((a.digits[i] - '0') + carry);
+		this->digits.push_back(addition % 10 + '0');
+		carry = addition / 10;
+	}
+
+	if (carry) this->digits.push_back(carry + '0');
+}
+
+void inf_int::Sub(const inf_int& a, const inf_int& b) {
+	int carry = 0;
+
+	// a와 b 겹치는 부분 계산
+	for (unsigned int i = 0; i < b.length; i++) {
+		int subtraction = ((a.digits[i] - '0') - (b.digits[i] - '0') - carry);
+		if (subtraction < 0) {
+			subtraction = subtraction + 10;
+			carry = 1;
+		}
+		else {
+			carry = 0;
+		}
+		this->digits.push_back(subtraction + '0');
+	}
+
+	// 남는 a 범위 계산
+	for (unsigned int i = b.length; i < a.length; i++) {
+		int subtraction = ((a.digits[i] - '0') - carry);
+		if (subtraction < 0) {
+			subtraction = subtraction + 10;
+			carry = 1;
+		}
+		else {
+			carry = 0;
+		}
+		this->digits.push_back(subtraction + '0');
+	}
+
+	// 뒷자리부터 무의미한 0 제거
+	unsigned int numOfZero = 0;
+	for (unsigned int i = (unsigned int)this->digits.length() - 1; i > 0; i--) {
+		if (this->digits[i] == '0') numOfZero++;
+		else break;
+	}
+	this->digits = this->digits.substr(0, this->digits.length() - numOfZero);
+
+	// length
+	this->length = (unsigned int)this->digits.length();
+}
 
 bool compareAbs(const inf_int& a, const inf_int& b) {
 	// compare Abs of a and b
@@ -389,9 +327,5 @@ bool compareAbs(const inf_int& a, const inf_int& b) {
 }
 
 bool isZero(const inf_int& a) {
-	if (a.length != 1) return false;
-	if (a.digits[a.length - 1] != '0') return false;
-	if (a.thesign != true) return false;
-
-	return true;
+	return !(a.length != 1 || a.digits[a.length - 1] != '0' || a.thesign != true);
 }
