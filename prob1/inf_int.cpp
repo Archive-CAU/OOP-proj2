@@ -53,29 +53,29 @@ inf_int::inf_int(const char* str) {
 	else this->thesign = true;
 
 
-	unsigned int lengthOfStr = strlen(str);
+	size_t lengthOfStr = strlen(str);
 	this->digits = string();
 
 	if (this->thesign) {
 		for (int i = 0; i < lengthOfStr; i++) {
 			this->digits.push_back(str[lengthOfStr - 1 - i]);
 		}
-		this->length = lengthOfStr;
+		this->length = (unsigned int)lengthOfStr;
 	}
 	else {
 		for (int i = 0; i < lengthOfStr - 1; i++) {
 			this->digits.push_back(str[lengthOfStr - 1 - i]);
 		}
-		this->length = lengthOfStr - 1;
+		this->length = (unsigned int)lengthOfStr - 1;
 	}
 }
 
 inf_int::inf_int(const inf_int& a) {
 	this->digits = string();
-	for (int i = 0; i < a.length; i++) {
+	for (unsigned int i = 0; i < a.length; i++) {
 		this->digits.push_back(a.digits[i]);
 	}
-	
+
 	this->length = a.length;
 	this->thesign = a.thesign;
 }
@@ -85,7 +85,7 @@ inf_int::~inf_int() {
 
 inf_int& inf_int::operator=(const inf_int& a) {
 	this->digits = string();
-	for (int i = 0; i < a.length; i++) {
+	for (unsigned int i = 0; i < a.length; i++) {
 		this->digits.push_back(a.digits[i]);
 	}
 
@@ -138,14 +138,14 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 			int carry = 0;
 
 			// a와 b가 겹치는 범위 연산
-			for (int i = 0; i < b.length; i++) {
+			for (unsigned int i = 0; i < b.length; i++) {
 				int addition = ((a.digits[i] - '0') + (b.digits[i] - '0') + carry);
 				c.digits.push_back(addition % 10 + '0');
 				carry = addition / 10;
 			}
 
 			// 남는 a 범위 연산
-			for (int i = b.length; i < a.length; i++) {
+			for (unsigned int i = b.length; i < a.length; i++) {
 				int addition = ((a.digits[i] - '0') + carry);
 				c.digits.push_back(addition % 10 + '0');
 				carry = addition / 10;
@@ -157,14 +157,14 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 		else {
 			int carry = 0;
 			// a와 b가 겹치는 범위 연산
-			for (int i = 0; i < a.length; i++) {
+			for (unsigned int i = 0; i < a.length; i++) {
 				int addition = ((a.digits[i] - '0') + (b.digits[i] - '0') + carry);
 				c.digits.push_back(addition % 10 + '0');
 				carry = addition / 10;
 			}
 
 			// 남는 b 범위 연산
-			for (int i = a.length; i < b.length; i++) {
+			for (unsigned int i = a.length; i < b.length; i++) {
 				int addition = ((b.digits[i] - '0') + carry);
 				c.digits.push_back(addition % 10 + '0');
 				carry = addition / 10;
@@ -174,7 +174,7 @@ inf_int operator+(const inf_int& a, const inf_int& b) {
 		}
 
 
-		c.length = c.digits.length();
+		c.length = (unsigned int)c.digits.length();
 		c.thesign = a.thesign;
 
 		return c;
@@ -224,15 +224,15 @@ inf_int operator-(const inf_int& a, const inf_int& b)
 
 			// 뒷자리부터 무의미한 0 제거
 			unsigned int numOfZero = 0;
-			for (unsigned int i = c.digits.length() - 1; i > 0; i--) {
+			for (unsigned int i = (unsigned int)c.digits.length() - 1; i > 0; i--) {
 				if (c.digits[i] == '0') numOfZero++;
 				else break;
 			}
 			c.digits = c.digits.substr(0, c.digits.length() - numOfZero);
 
-			c.length = c.digits.length();
+			c.length = (unsigned int)c.digits.length();
 			c.thesign = a.thesign;
-
+			
 			return c;
 		}
 		else {
@@ -290,13 +290,13 @@ inf_int operator-(const inf_int& a, const inf_int& b)
 
 			// 뒷자리부터 무의미한 0 제거
 			unsigned int numOfZero = 0;
-			for (unsigned int i = c.digits.length() - 1; i > 0; i--) {
+			for (unsigned int i = (unsigned int)c.digits.length() - 1; i > 0; i--) {
 				if (c.digits[i] == '0') numOfZero++;
 				else break;
 			}
 			c.digits = c.digits.substr(0, c.digits.length() - numOfZero);
 
-			c.length = c.digits.length();
+			c.length = (unsigned int)c.digits.length();
 
 			if (a.thesign) c.thesign = false;
 			else c.thesign = true;
@@ -330,8 +330,8 @@ inf_int operator*(const inf_int& a, const inf_int& b)
 		if (a.thesign == b.thesign) c.thesign = true;
 		else c.thesign = false;
 
-		for (int i = 0; i < a.length; i++) {
-			for (int j = 0; j < b.length; j++) {
+		for (unsigned int i = 0; i < a.length; i++) {
+			for (unsigned int j = 0; j < b.length; j++) {
 				int production = c.digits[i + j] + (a.digits[i] - '0') * (b.digits[j] - '0');
 				c.digits[i + j] = production % 10;
 				c.digits[i + j + 1] += production / 10;
@@ -348,7 +348,7 @@ inf_int operator*(const inf_int& a, const inf_int& b)
 			c.digits = c.digits.substr(0, c.digits.length() - 1);
 		}
 
-		c.length = c.digits.length();
+		c.length = (unsigned int)c.digits.length();
 		return c;
 	}
 
@@ -376,7 +376,7 @@ bool compareAbs(const inf_int& a, const inf_int& b) {
 	if (a.length > b.length) return true;
 	else if (a.length < b.length) return false;
 	else {
-		for (int i = 0; i < a.length; i++) {
+		for (unsigned int i = 0; i < a.length; i++) {
 			if (a.digits[i] > b.digits[i]) {
 				return true;
 			}
@@ -392,6 +392,6 @@ bool isZero(const inf_int& a) {
 	if (a.length != 1) return false;
 	if (a.digits[a.length - 1] != '0') return false;
 	if (a.thesign != true) return false;
-	
+
 	return true;
 }

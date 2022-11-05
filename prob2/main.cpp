@@ -1,5 +1,3 @@
-#include "string"
-#include "iostream"
 #include "inf_int.h"
 #include "Calculator.h"
 
