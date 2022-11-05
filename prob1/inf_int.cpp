@@ -327,5 +327,5 @@ bool compareAbs(const inf_int& a, const inf_int& b) {
 }
 
 bool isZero(const inf_int& a) {
-	return !(a.length != 1 || a.digits[a.length - 1] != '0' || a.thesign != true);
+	return (a.length == 1 && a.digits[a.length - 1] == '0' && a.thesign == true);
 }
