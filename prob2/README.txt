@@ -5,7 +5,7 @@ OS: Windows 11
 VS: Microsoft Visual Studio Community 2022 (64-bit) - 17.1.6
 
 ## Implementation using exe
-1. go to "x64" directory
+1. go to "x64" directory from "proj2" not "prob2"
 2. go to "Release" directory
 3. click "prob2.exe"
 4. use that program (for example input "1234 + 5678")

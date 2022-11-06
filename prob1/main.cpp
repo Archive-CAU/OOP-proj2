@@ -33,7 +33,7 @@ int main()
 		// cout << "g : " << g << endl;
 	}
 
-	//Test();
+	Test();
 	_getch();
 	return 0;
 }
@@ -65,5 +65,8 @@ void Test () {
 	cout << "0 * 0 = " << e * e << endl;
 	cout << "0 + 0 = " << e + e << endl;
 	cout << "0 - 0 = " << e - e << endl;
+	cout << "-567 * 430 = " << f * a << endl;
+	cout << "-567 * -567 = " << f * f << endl;
+	cout << "919 * (-567) = " << b * f << endl;
 
 };
