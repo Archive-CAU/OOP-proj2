@@ -213,7 +213,7 @@ inf_int operator*(const inf_int& a, const inf_int& b) {
 		for (unsigned int i = 0; i < a.length; i++) {
 			for (unsigned int j = 0; j < b.length; j++) {
 				int production = c.digits[i + j] + (a.digits[i] - '0') * (b.digits[j] - '0');
-				c.digits[i + j] = production % 10;
+				c.digits[i + j] = (char)production % 10;
 				c.digits[i + j + 1] += production / 10;
 			}
 		}
